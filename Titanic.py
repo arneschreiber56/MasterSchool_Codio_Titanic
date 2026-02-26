@@ -20,12 +20,29 @@ def top_countries(all_data, num):
     for ship in all_data["data"]:
         country = ship["COUNTRY"]
         country_counts[country] = country_counts.get(country, 0) + 1
-
-    sorted_counts = sorted(country_counts.items(), key=lambda x: x[1], reverse=True)
+    sorted_counts = (
+        sorted(country_counts.items(), key=lambda x: x[1], reverse=True))
     results = sorted_counts[:num]
     print(f"\nTop {num} Countries:")
     for country, count in results:
         print(f"{country}: {count} ships")
+    print()
+    return True
+
+
+def ships_by_types(all_data):
+    """Print the number of ships for each ship type based on TYPE_SUMMARY.
+    Returns:
+    bool: Always True, to keep the main loop running."""
+    type_counts = {}
+    for ship in all_data["data"]:
+        ship_type = ship.get("TYPE_SUMMARY")
+        type_counts[ship_type] = type_counts.get(ship_type, 0) + 1
+    sorted_types = (
+        sorted(type_counts.items(), key=lambda x: x[1], reverse=True))
+    print("\nShips by Type:")
+    for ship_type, count in sorted_types:
+        print(f"{ship_type}: {count} ships")
     print()
     return True
 
@@ -38,6 +55,7 @@ def show_help(_):
     print("help - Show this help message")
     print("show_countries - List all unique countries")
     print("top_countries <num> - Show top N countries with most ships")
+    print("ships_by_types - Show the number of ships for each ship type")
     print("q - Quit the program\n")
     return True
 
@@ -58,6 +76,7 @@ def main():
         "help": show_help,
         "show_countries": show_countries,
         "top_countries": top_countries,
+        "ships_by_types": ships_by_types,
         "q": quit_program
     }
 
